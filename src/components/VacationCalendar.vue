@@ -3,7 +3,7 @@ div
     .vacation__header
         h2.vacation__header-title {{title}}
         div
-            button.vacation__header-button(@click="decreaseYear")
+            button.vacation__header-button(@click="decreaseYear" v-if="(calendarYear > 2017)")
                 <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Head-dashboard-1368" transform="translate(-960.000000, -273.000000)">
@@ -14,8 +14,8 @@ div
                         </g>
                     </g>
                 </svg>
-            span.vacation__header-year {{tableYear}}
-            button.vacation__header-button(@click="increaseYear")
+            span.vacation__header-year {{calendarYear}}
+            button.vacation__header-button(@click="increaseYear" v-if="(calendarYear < 2023)")
                 <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Head-dashboard-1368" transform="translate(-1043.000000, -273.000000)">
@@ -32,11 +32,13 @@ div
                 td(v-for="name in tableHeaderNames") {{name}}
 
         tbody.vacation__table-body.js-vacation-table
-            Employee(v-for="item in employeeInformation" v-bind:employee="item" :key="item.id")
+            Employee(v-for="item in employeeInformation" :employee="item" :calendarYear="calendarYear" :key="item.id")
 </template>
 
 <script>
 import Employee from "./Employee";
+import EmployeeSetting from "./EmployeeSetting";
+
 export default {
     name: "VacationCalendar",
     components: {
@@ -45,7 +47,7 @@ export default {
     data: function() {
         return {
             title: "График отпусков",
-            tableYear: 2020,
+            calendarYear: 2020,
             tableHeaderNames: [
                 "Фамилия, Имя",
                 "дней",
@@ -62,7 +64,7 @@ export default {
                 "Ноя",
                 "Дек"
             ],
-            employeeInformation: {},
+            employeeInformation: [],
             isLoadet: ""
         };
     },
@@ -75,19 +77,25 @@ export default {
                 result => {
                     this.isLoaded = true;
                     this.employeeInformation = result;
+                    return result;
                 },
                 error => {
                     this.isLoaded = true;
                     error;
                 }
-            );
+            )
+            .then(result => EmployeeSetting().displayEmployeesEvents(result));
     },
+    updated() {
+        EmployeeSetting().displayEmployeesEvents(this.employeeInformation);
+    },
+
     methods: {
         increaseYear: function() {
-            if (this.tableYear < 2023) this.tableYear++;
+            if (this.calendarYear < 2023) this.calendarYear++;
         },
         decreaseYear: function() {
-            if (this.tableYear > 2017) this.tableYear--;
+            if (this.calendarYear > 2017) this.calendarYear--;
         }
     }
 };
@@ -143,9 +151,11 @@ export default {
             &:first-child {
                 text-align: left;
             }
-            &:nth-child(1),
-            &:nth-child(2) {
+            &:nth-child(1) {
                 padding-right: 10px;
+            }
+            &:nth-child(2) {
+                padding: 0 10px;
             }
         }
     }

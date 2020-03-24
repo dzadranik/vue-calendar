@@ -1,5 +1,9 @@
-export default function Calendar() {
-    let daysInMonth, firstDay, month, employeeId, day;
+export default function Calendar(year) {
+    let daysInMonth,
+        firstDay,
+        month,
+        employeeId,
+        day;
     // daysInMonth-количество дней в месяце,
     // firstDay-день недели первого дня,
     // month-индекс месяца,
@@ -12,17 +16,17 @@ export default function Calendar() {
 
     const setMonthInformation = monthIndex => {
         month = monthIndex;
-        daysInMonth = new Date(2020, monthIndex + 1, 0).getDate();
-        let frD = new Date(2020, monthIndex, 1).getDay();
+        daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+        let frD = new Date(year, monthIndex, 1).getDay();
         frD === 0 ? (firstDay = 6) : (firstDay = frD - 1); //сделать отсчет дней недели с понедельника
     };
 
-    const getYearContent = (i = 0, yearArray = []) => {
+    const getYearContent = (i = 0, monthArray = []) => {
         if (i < 12) {
-            yearArray.push(getOneMonth(i));
-            return getYearContent(i + 1, yearArray);
+            monthArray.push(getOneMonth(i));
+            return getYearContent(i + 1, monthArray);
         } else {
-            return yearArray;
+            return monthArray;
         }
     };
 
