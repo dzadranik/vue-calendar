@@ -1,9 +1,13 @@
-export default function Calendar(year) {
+export default function Calendar() {
     let daysInMonth,
         firstDay,
         month,
         employeeId,
-        day;
+        day,
+        year,
+        today,
+        todayMonth,
+        todayYear;
     // daysInMonth-количество дней в месяце,
     // firstDay-день недели первого дня,
     // month-индекс месяца,
@@ -15,6 +19,10 @@ export default function Calendar(year) {
     };
 
     const setMonthInformation = monthIndex => {
+        let todayDate = new Date();
+        today = todayDate.getDate();
+        todayMonth = todayDate.getMonth();
+        todayYear = todayDate.getFullYear();
         month = monthIndex;
         daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
         let frD = new Date(year, monthIndex, 1).getDay();
@@ -67,17 +75,33 @@ export default function Calendar(year) {
         return daysContent;
     };
 
+    const getIsLastDay = () => {
+        if (todayYear > year) return true;
+        if (todayYear < year) return false;
+        if (todayYear === year) {
+            if (todayMonth < month) {
+                return false;
+            }
+            if (todayMonth === month) {
+                return day < today;
+            }
+            return true;
+        }
+    };
+
     const getOneDay = dayClass => {
-        let isEmptyDay = dayClass === "calendar__empty";
+        let isEmptyDay = dayClass === "calendar__empty",
+            isLastDay = getIsLastDay();
         !isEmptyDay ? day++ : "";
         //чтобы не вводить лишнюю переменную сначала прибавить день, а в формировании класса его вычесть
         return `<div class="${dayClass} ${
             !isEmptyDay ? `js-day-${day - 1}-${month}-${employeeId}` : ``
-        }" ></div>`;
+        } ${isLastDay && !isEmptyDay ? "calendar__day--last" : ""}" ></div>`;
     };
 
     return {
-        getYear: id => {
+        getYear: (id, viewYear) => {
+            year = viewYear;
             setEmployeeId(id);
             return getYearContent();
         }

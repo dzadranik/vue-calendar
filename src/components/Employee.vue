@@ -3,25 +3,22 @@
         td
             img.vacation__employee-photo(:src="employee.img" alt="Employee image")
             .vacation__employee-name {{employee.name}}
-        td {{employee.vacationDaysCount}}/28 {{this.calendarYear}}
+        td {{employee.vacationDaysCount}}/28
         td(v-for="month in calendar" v-html="month")
 </template>
 
 <script>
 import Calendar from "./Calendar";
+const { getYear } = Calendar();
 
 export default {
     name: "Employee",
     props: ["employee", "calendarYear"],
 
-    data: function() {
-        return {
-            calendar: Calendar(this.calendarYear).getYear(this.employee.id)
-        };
-    },
-
-    beforeUpdate() {
-        this.calendar = Calendar(this.calendarYear).getYear(this.employee.id);
+    computed: {
+        calendar: function() {
+            return getYear(this.employee.id, this.calendarYear);
+        }
     }
 };
 </script>

@@ -82,7 +82,6 @@ export default function EmployeeSetting() {
 
     return {
         displayEmployeesEvents: employeesArray => {
-            // console.log(employeesArray);
             employeesArray.forEach(employee => addEventsToCalendar(employee));
         },
         displayEventInformation: (eventId, employeesArray) => {

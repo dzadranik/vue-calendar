@@ -31,13 +31,14 @@ div
             tr
                 td(v-for="name in tableHeaderNames") {{name}}
 
-        tbody.vacation__table-body.js-vacation-table
+        tbody.vacation__table-body.js-vacation-table(@mouseover="showEventInformation($event)")
             Employee(v-for="item in employeeInformation" :employee="item" :calendarYear="calendarYear" :key="item.id")
 </template>
 
 <script>
 import Employee from "./Employee";
 import EmployeeSetting from "./EmployeeSetting";
+const { displayEmployeesEvents, displayEventInformation } = EmployeeSetting();
 
 export default {
     name: "VacationCalendar",
@@ -84,10 +85,10 @@ export default {
                     error;
                 }
             )
-            .then(result => EmployeeSetting().displayEmployeesEvents(result));
+            .then(result => displayEmployeesEvents(result));
     },
     updated() {
-        EmployeeSetting().displayEmployeesEvents(this.employeeInformation);
+        displayEmployeesEvents(this.employeeInformation);
     },
 
     methods: {
@@ -96,6 +97,27 @@ export default {
         },
         decreaseYear: function() {
             if (this.calendarYear > 2017) this.calendarYear--;
+        },
+        showEventInformation: function(event) {
+            if (
+                event.target.dataset.eventId &&
+                event.target.dataset.eventId !==
+                    event.relatedTarget.dataset.eventId
+            )
+                displayEventInformation(
+                    event.target.dataset.eventId,
+                    this.employeeInformation
+                );
+            //event.relatedTarget проверка чтобы при движении из консоли не вылетала ошибка
+            if (
+                event.relatedTarget &&
+                event.relatedTarget.dataset.eventId &&
+                !event.target.dataset.eventId
+            ) {
+                document
+                    .querySelector(".js-vacation-table .calendar-event")
+                    .remove();
+            }
         }
     }
 };
@@ -148,11 +170,11 @@ export default {
         td {
             padding: 0;
             vertical-align: middle;
+            width: 60px;
             &:first-child {
                 text-align: left;
-            }
-            &:nth-child(1) {
                 padding-right: 10px;
+                width: 100px;
             }
             &:nth-child(2) {
                 padding: 0 10px;
