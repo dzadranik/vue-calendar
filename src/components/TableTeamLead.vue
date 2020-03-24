@@ -4,16 +4,21 @@
         .dashboard
             button.dashboard__button(data-button-name="dashboard" :class="(activeButton === 'dashboard') ? 'active' : ''" @click="changeActiveButton($event)") Dashboard
             button.dashboard__button(data-button-name="timeLine" :class="(activeButton === 'timeLine') ? 'active' : ''" @click="changeActiveButton($event)") Team line up
-        
-        div(v-if="(activeButton === 'dashboard')")
+
+        VacationCalendar(v-if="(activeButton === 'dashboard')")
             h2 calendar
         div(v-if="(activeButton === 'timeLine')")
             h2 time line up
 </template>
 
 <script>
+import VacationCalendar from "./VacationCalendar";
+
 export default {
     name: "TableTeamLead",
+    components: {
+        VacationCalendar
+    },
     data: function() {
         return {
             title: "Рабочий стол руководителя",
@@ -29,7 +34,7 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "../styles/mixin/colors.scss";
 
 .dashboard {

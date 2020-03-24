@@ -4,7 +4,7 @@
 </template>
 
 <script>
-import TableTeamLead from "./components/TableTeamLead.vue";
+import TableTeamLead from "./components/TableTeamLead";
 
 export default {
     name: "App",
