@@ -2,15 +2,29 @@
     div
         h1 {{title}}
         .dashboard
-            button.dashboard__button.active Dashboard
-            button.dashboard__button Team line up
+            button.dashboard__button(data-button-name="dashboard" :class="(activeButton === 'dashboard') ? 'active' : ''" @click="changeActiveButton($event)") Dashboard
+            button.dashboard__button(data-button-name="timeLine" :class="(activeButton === 'timeLine') ? 'active' : ''" @click="changeActiveButton($event)") Team line up
+        
+        div(v-if="(activeButton === 'dashboard')")
+            h2 calendar
+        div(v-if="(activeButton === 'timeLine')")
+            h2 time line up
 </template>
 
 <script>
 export default {
     name: "TableTeamLead",
-    props: {
-        title: String
+    data: function() {
+        return {
+            title: "Рабочий стол руководителя",
+            activeButton: "dashboard"
+        };
+    },
+    methods: {
+        changeActiveButton: function(event) {
+            if (this.activeButton !== event.toElement.dataset.buttonName)
+                this.activeButton = event.toElement.dataset.buttonName;
+        }
     }
 };
 </script>

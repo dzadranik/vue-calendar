@@ -1,6 +1,6 @@
 <template lang="pug">
     #app.wrapper
-        TableTeamLead( title='Рабочий стол руководителя')
+        TableTeamLead
 </template>
 
 <script>
