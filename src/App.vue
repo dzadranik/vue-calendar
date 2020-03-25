@@ -13,8 +13,8 @@ export default {
 </script>
 
 <style lang="scss">
-@import "./styles/reset.scss";
-@import "./styles/mixin/colors.scss";
+@import "@/styles/reset.scss";
+@import "@/styles/mixin/colors.scss";
 @import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
 
 html {

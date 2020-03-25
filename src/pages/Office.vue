@@ -1,6 +1,6 @@
 <template lang="pug">
     div
-        h1 {{title}}
+        h1 Рабочий стол руководителя
         .dashboard
             router-link.dashboard__button(to='/office/dashboard') Dashboard
             router-link.dashboard__button(to="/office/time-line") Team line up
@@ -8,24 +8,18 @@
 </template>
 
 <script>
-import VacationCalendar from "../components/VacationCalendar";
+import VacationCalendar from "@/components/VacationCalendar";
 
 export default {
     name: "Office",
     components: {
         VacationCalendar
-    },
-    data: function() {
-        return {
-            title: "Рабочий стол руководителя"
-        };
-    },
-    methods: {}
+    }
 };
 </script>
 
 <style lang="scss">
-@import "../styles/mixin/colors.scss";
+@import "@/styles/mixin/colors.scss";
 
 .dashboard {
     padding: 6px 16px;

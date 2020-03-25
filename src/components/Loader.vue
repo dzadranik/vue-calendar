@@ -5,7 +5,7 @@
             div
 </template>
 
-<style lang="scss">
+<style>
 .loader__wrapper {
     padding: 40px;
     text-align: center;

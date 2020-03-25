@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import Calendar from "./js/Calendar";
+import Calendar from "@/components/js/Calendar";
 const { getYear } = Calendar();
 
 export default {

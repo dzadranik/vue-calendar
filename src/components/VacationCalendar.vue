@@ -1,7 +1,7 @@
 <template lang="pug">
 div
     .vacation__header
-        h2.vacation__header-title {{title}}
+        h2.vacation__header-title График отпусков
         div
             button.vacation__header-button(@click="decreaseYear" :class="(isCalendarMin)? 'inactive': ''")
                 <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -27,7 +27,7 @@ div
                     </g>
                 </svg>
     Loader(v-if="!isLoaded")
-    table.vacation__table(v-if="isLoaded")
+    table.vacation__table(v-else)
         thead.vacation__table-header
             tr
                 td(v-for="name in tableHeaderNames") {{name}}
@@ -36,9 +36,9 @@ div
 </template>
 
 <script>
-import Employee from "./Employee";
-import EmployeeSetting from "./js/EmployeeSetting";
-import Loader from "./Loader";
+import Employee from "@/components/Employee";
+import EmployeeSetting from "@/components/js/EmployeeSetting";
+import Loader from "@/components/Loader";
 
 const { displayEmployeesEvents, displayEventInformation } = EmployeeSetting();
 
@@ -50,7 +50,6 @@ export default {
     },
     data: function() {
         return {
-            title: "График отпусков",
             calendarYear: 2020,
             tableHeaderNames: [
                 "Фамилия, Имя",
@@ -89,7 +88,6 @@ export default {
                 result => {
                     this.employeeInformation = result;
                     this.isLoaded = true;
-                    return result;
                 },
                 error => {
                     this.isLoaded = true;
