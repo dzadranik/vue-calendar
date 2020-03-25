@@ -3,7 +3,7 @@ div
     .vacation__header
         h2.vacation__header-title {{title}}
         div
-            button.vacation__header-button(@click="decreaseYear" v-if="(calendarYear > 2017)")
+            button.vacation__header-button(@click="decreaseYear" :class="(calendarYear > 2017)? '': 'inactive'")
                 <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Head-dashboard-1368" transform="translate(-960.000000, -273.000000)">
@@ -15,7 +15,7 @@ div
                     </g>
                 </svg>
             span.vacation__header-year {{calendarYear}}
-            button.vacation__header-button(@click="increaseYear" v-if="(calendarYear < 2023)")
+            button.vacation__header-button(@click="increaseYear" :class="(calendarYear < 2023)? '': 'inactive'")
                 <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Head-dashboard-1368" transform="translate(-1043.000000, -273.000000)">
@@ -26,11 +26,11 @@ div
                         </g>
                     </g>
                 </svg>
-    table.vacation__table
+    Loader(v-if="!isLoaded")
+    table.vacation__table(v-if="isLoaded")
         thead.vacation__table-header
             tr
                 td(v-for="name in tableHeaderNames") {{name}}
-
         tbody.vacation__table-body.js-vacation-table(@mouseover="showEventInformation($event)")
             Employee(v-for="item in employeeInformation" :employee="item" :calendarYear="calendarYear" :key="item.id")
 </template>
@@ -38,12 +38,15 @@ div
 <script>
 import Employee from "./Employee";
 import EmployeeSetting from "./EmployeeSetting";
+import Loader from "./Loader";
+
 const { displayEmployeesEvents, displayEventInformation } = EmployeeSetting();
 
 export default {
     name: "VacationCalendar",
     components: {
-        Employee
+        Employee,
+        Loader
     },
     data: function() {
         return {
@@ -66,7 +69,7 @@ export default {
                 "Дек"
             ],
             employeeInformation: [],
-            isLoadet: ""
+            isLoaded: false
         };
     },
     mounted() {
@@ -76,19 +79,19 @@ export default {
             .then(res => res.json())
             .then(
                 result => {
-                    this.isLoaded = true;
                     this.employeeInformation = result;
+                    this.isLoaded = true;
                     return result;
                 },
                 error => {
                     this.isLoaded = true;
                     error;
                 }
-            )
-            .then(result => displayEmployeesEvents(result));
+            );
     },
     updated() {
-        displayEmployeesEvents(this.employeeInformation);
+        if (this.calendarYear === 2020)
+            displayEmployeesEvents(this.employeeInformation);
     },
 
     methods: {
@@ -145,6 +148,10 @@ export default {
         background: transparent;
         border: none;
         outline: none;
+        &.inactive {
+            opacity: 0.1;
+            cursor: default;
+        }
     }
     &__table {
         width: 100%;

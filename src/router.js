@@ -2,6 +2,7 @@ import Vue from "vue";
 import Router from "vue-router";
 import TableTeamLead from "./components/TableTeamLead";
 import VacationCalendar from "./components/VacationCalendar";
+import Loader from "./components/Loader";
 
 Vue.use(Router);
 
@@ -17,7 +18,8 @@ export default new Router({
                     component: VacationCalendar
                 },
                 {
-                    path: "/time-line"
+                    path: "/time-line",
+                    component: Loader
                 }
             ]
         }
