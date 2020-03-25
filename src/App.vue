@@ -1,16 +1,11 @@
 <template lang="pug">
-    #app.wrapper
-        TableTeamLead
+	#app.wrapper
+		router-view/
 </template>
 
 <script>
-import TableTeamLead from "./components/TableTeamLead";
-
 export default {
-    name: "App",
-    components: {
-        TableTeamLead
-    }
+    name: "App"
 };
 </script>
 

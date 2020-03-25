@@ -2,13 +2,9 @@
     div
         h1 {{title}}
         .dashboard
-            button.dashboard__button(data-button-name="dashboard" :class="(activeButton === 'dashboard') ? 'active' : ''" @click="changeActiveButton($event)") Dashboard
-            button.dashboard__button(data-button-name="timeLine" :class="(activeButton === 'timeLine') ? 'active' : ''" @click="changeActiveButton($event)") Team line up
-
-        VacationCalendar(v-if="(activeButton === 'dashboard')")
-            h2 calendar
-        div(v-if="(activeButton === 'timeLine')")
-            h2 time line up
+            router-link.dashboard__button(to='/dashboard') Dashboard
+            router-link.dashboard__button(to="/time-line") Team line up
+        router-view
 </template>
 
 <script>
@@ -21,16 +17,10 @@ export default {
     },
     data: function() {
         return {
-            title: "Рабочий стол руководителя",
-            activeButton: "dashboard"
+            title: "Рабочий стол руководителя"
         };
     },
-    methods: {
-        changeActiveButton: function(event) {
-            if (this.activeButton !== event.toElement.dataset.buttonName)
-                this.activeButton = event.toElement.dataset.buttonName;
-        }
-    }
+    methods: {}
 };
 </script>
 
@@ -51,7 +41,9 @@ export default {
         outline: none;
         padding: 17px 36px 16px;
         margin-right: 20px;
-        &.active {
+        text-decoration: none;
+        display: inline-block;
+        &.router-link-active {
             background: $color-background-active-button;
             color: $color-active-button;
         }
