@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Router from "vue-router";
-import TableTeamLead from "./components/TableTeamLead";
+import Office from "./pages/Office";
+import Home from "./pages/Home";
 import VacationCalendar from "./components/VacationCalendar";
 import Loader from "./components/Loader";
 
@@ -10,15 +11,19 @@ export default new Router({
     mode: "history",
     routes: [
         {
-            path: "/",
-            component: TableTeamLead,
+            path: '/',
+            component: Home
+        },
+        {
+            path: "/office/dashboard",
+            component: Office,
             children: [
                 {
-                    path: "/dashboard",
+                    path: "/office/dashboard",
                     component: VacationCalendar
                 },
                 {
-                    path: "/time-line",
+                    path: "/office/time-line",
                     component: Loader
                 }
             ]

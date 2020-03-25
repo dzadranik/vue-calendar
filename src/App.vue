@@ -1,5 +1,8 @@
 <template lang="pug">
 	#app.wrapper
+		router-link(to='/') Главная
+		br/
+		router-link(to='/office/dashboard') Рабочий стол руководителя
 		router-view/
 </template>
 

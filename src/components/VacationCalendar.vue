@@ -3,7 +3,7 @@ div
     .vacation__header
         h2.vacation__header-title {{title}}
         div
-            button.vacation__header-button(@click="decreaseYear" :class="(calendarYear > 2017)? '': 'inactive'")
+            button.vacation__header-button(@click="decreaseYear" :class="(isCalendarMin)? 'inactive': ''")
                 <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Head-dashboard-1368" transform="translate(-960.000000, -273.000000)">
@@ -15,7 +15,7 @@ div
                     </g>
                 </svg>
             span.vacation__header-year {{calendarYear}}
-            button.vacation__header-button(@click="increaseYear" :class="(calendarYear < 2023)? '': 'inactive'")
+            button.vacation__header-button(@click="increaseYear" :class="(isCalendarMax)? 'inactive': ''")
                 <svg width="7px" height="12px" viewBox="0 0 7 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
                         <g id="Head-dashboard-1368" transform="translate(-1043.000000, -273.000000)">
@@ -37,7 +37,7 @@ div
 
 <script>
 import Employee from "./Employee";
-import EmployeeSetting from "./EmployeeSetting";
+import EmployeeSetting from "./js/EmployeeSetting";
 import Loader from "./Loader";
 
 const { displayEmployeesEvents, displayEventInformation } = EmployeeSetting();
@@ -72,6 +72,14 @@ export default {
             isLoaded: false
         };
     },
+    computed: {
+        isCalendarMax: function() {
+            return this.calendarYear >= 2022;
+        },
+        isCalendarMin: function() {
+            return this.calendarYear <= 2018;
+        }
+    },
     mounted() {
         fetch(
             "https://dzadranik.github.io/i-dex/src/json/vacation-calendar.json"
@@ -96,10 +104,10 @@ export default {
 
     methods: {
         increaseYear: function() {
-            if (this.calendarYear < 2023) this.calendarYear++;
+            if (!this.isCalendarMax) this.calendarYear++;
         },
         decreaseYear: function() {
-            if (this.calendarYear > 2017) this.calendarYear--;
+            if (!this.isCalendarMin) this.calendarYear--;
         },
         showEventInformation: function(event) {
             if (

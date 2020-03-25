@@ -2,16 +2,16 @@
     div
         h1 {{title}}
         .dashboard
-            router-link.dashboard__button(to='/dashboard') Dashboard
-            router-link.dashboard__button(to="/time-line") Team line up
+            router-link.dashboard__button(to='/office/dashboard') Dashboard
+            router-link.dashboard__button(to="/office/time-line") Team line up
         router-view
 </template>
 
 <script>
-import VacationCalendar from "./VacationCalendar";
+import VacationCalendar from "../components/VacationCalendar";
 
 export default {
-    name: "TableTeamLead",
+    name: "Office",
     components: {
         VacationCalendar
     },
