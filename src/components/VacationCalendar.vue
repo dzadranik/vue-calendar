@@ -40,7 +40,7 @@ import Employee from "@/components/Employee";
 import EmployeeSetting from "@/components/js/EmployeeSetting";
 import Loader from "@/components/Loader";
 
-const { displayEmployeesEvents, displayEventInformation } = EmployeeSetting();
+const employee = new EmployeeSetting;
 
 export default {
     name: "VacationCalendar",
@@ -97,7 +97,7 @@ export default {
     },
     updated() {
         if (this.calendarYear === 2020)
-            displayEmployeesEvents(this.employeeInformation);
+            employee.displayEmployeesEvents(this.employeeInformation);
     },
 
     methods: {
@@ -113,7 +113,7 @@ export default {
                 event.target.dataset.eventId !==
                     event.relatedTarget.dataset.eventId
             )
-                displayEventInformation(
+                employee.displayEventInformation(
                     event.target.dataset.eventId,
                     this.employeeInformation
                 );

@@ -1,15 +1,15 @@
-export default function EmployeeSetting() {
-    const addToContainer = (content, containerSelector) => {
+export default class EmployeeSetting {
+    _addToContainer(content, containerSelector) {
         const container = document.querySelector(containerSelector);
         container.innerHTML += content;
-    };
+    }
 
-    const addEventsToCalendar = employee => {
+    _addEventsToCalendar(employee) {
         const { id, events } = employee;
-        events.forEach(event => addOneEvent(event, id));
-    };
+        events.forEach(event => this._addOneEvent(event, id));
+    }
 
-    const addOneEvent = (event, employeeId) => {
+    _addOneEvent(event, employeeId) {
         let { id, name, dateStart, dateEnd } = event,
             dateStartEvent = dateStart.split(".").map(parseFloat),
             dateEndEvent = dateEnd.split(".").map(parseFloat),
@@ -51,9 +51,9 @@ export default function EmployeeSetting() {
                 );
             }
         }
-    };
+    }
 
-    const getCalendarEventContent = (employeeInformation, eventInformation) => {
+    _getCalendarEventContent(employeeInformation, eventInformation) {
         const { name, img } = employeeInformation,
             { name: eventName, dateStart, dateEnd } = eventInformation;
         return `<div class="calendar-event">
@@ -65,12 +65,12 @@ export default function EmployeeSetting() {
 						<div class="calendar-event__date calendar-event__date--${eventName}">
 							${dateStart}.2020—${dateEnd}.2020 (14д.)
 						</div>
-						<div class="calendar-event__name">${getEventName(eventName)}</div>
+						<div class="calendar-event__name">${this._getEventName(eventName)}</div>
 					</div>
 				</div>`;
-    };
+    }
 
-    const getEventName = name => {
+    _getEventName(name) {
         return name === "vacation"
             ? "отпуск"
             : name === "red"
@@ -78,29 +78,29 @@ export default function EmployeeSetting() {
             : name === "yellow"
             ? "желтая метка"
             : "";
-    };
-
-    return {
-        displayEmployeesEvents: employeesArray => {
-            employeesArray.forEach(employee => addEventsToCalendar(employee));
-        },
-        displayEventInformation: (eventId, employeesArray) => {
-            //eventId[day, month, employeeId]
-            let eventIdArray = eventId.split("-").map(parseFloat),
-                eventDay = eventIdArray[0],
-                eventMonth = eventIdArray[1],
-                eventEmployeeId = eventIdArray[2],
-                employeeInformation = employeesArray.find(
-                    item => item.id === eventDay
-                ),
-                eventInformation = employeeInformation.events.find(
-                    event => event.id === eventMonth
-                );
-
-            addToContainer(
-                getCalendarEventContent(employeeInformation, eventInformation),
-                `.js-month-${employeeInformation.id}-${eventEmployeeId}`
+    }
+    displayEmployeesEvents(employeesArray) {
+        employeesArray.forEach(employee => this._addEventsToCalendar(employee));
+    }
+    displayEventInformation(eventId, employeesArray) {
+        //eventId[day, month, employeeId]
+        let eventIdArray = eventId.split("-").map(parseFloat),
+            eventDay = eventIdArray[0],
+            eventMonth = eventIdArray[1],
+            eventEmployeeId = eventIdArray[2],
+            employeeInformation = employeesArray.find(
+                item => item.id === eventDay
+            ),
+            eventInformation = employeeInformation.events.find(
+                event => event.id === eventMonth
             );
-        }
-    };
+
+        this._addToContainer(
+            this._getCalendarEventContent(
+                employeeInformation,
+                eventInformation
+            ),
+            `.js-month-${employeeInformation.id}-${eventEmployeeId}`
+        );
+    }
 }

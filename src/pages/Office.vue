@@ -8,13 +8,8 @@
 </template>
 
 <script>
-import VacationCalendar from "@/components/VacationCalendar";
-
 export default {
-    name: "Office",
-    components: {
-        VacationCalendar
-    }
+    name: "Office"
 };
 </script>
 
