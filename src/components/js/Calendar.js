@@ -82,7 +82,7 @@ export default class Calendar {
     }
 
     _getOneDay(dayClass) {
-        let isEmptyDay = this._dayClass === "calendar__empty",
+        let isEmptyDay = dayClass === "calendar__empty",
             isLastDay = this._getIsLastDay();
         !isEmptyDay ? this._day++ : "";
         //чтобы не вводить лишнюю переменную сначала прибавить день, а в формировании класса его вычесть
@@ -90,9 +90,7 @@ export default class Calendar {
             !isEmptyDay
                 ? `js-day-${this._day - 1}-${this._month}-${this._employeeId}`
                 : ``
-        } ${
-            isLastDay && !this._isEmptyDay ? "calendar__day--last" : ""
-        }" ></div>`;
+        } ${isLastDay && !isEmptyDay ? "calendar__day--last" : ""}" ></div>`;
     }
 
     getYear(id, year) {
